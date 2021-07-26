@@ -2,6 +2,7 @@ package com.edu.assistant.service;
 
 import com.edu.assistant.dao.OrderDao;
 import com.edu.assistant.exception.BadDateFormatException;
+import com.edu.assistant.exception.NotFoundException;
 import com.edu.assistant.model.*;
 import com.edu.assistant.dto.DatesDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
     public Order findById(Long id) {
         return orderDao.findById(id).
-                orElseThrow();
+                orElseThrow(() -> new NotFoundException("Not Found"));
     }
 
     public List<Order> findAllByStatusKitchen() {

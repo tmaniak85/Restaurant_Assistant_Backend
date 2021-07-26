@@ -1,10 +1,7 @@
 package com.edu.assistant.service;
 
 import com.edu.assistant.dao.TablesDao;
-import com.edu.assistant.exception.BadCredentialsException;
-import com.edu.assistant.exception.OrderInTableExistException;
-import com.edu.assistant.exception.UserInTableExistException;
-import com.edu.assistant.exception.UsernameExistException;
+import com.edu.assistant.exception.*;
 import com.edu.assistant.model.TableStatus;
 import com.edu.assistant.model.Tables;
 import com.edu.assistant.model.User;
@@ -45,7 +42,7 @@ public class TablesServiceImpl implements TablesService {
 
     public Tables findById(Long id) {
         return tablesDao.findById(id)
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("Not Found"));
     }
 
     public void deleteTable(Long id) throws UserInTableExistException {

@@ -1,6 +1,7 @@
 package com.edu.assistant.service;
 
 import com.edu.assistant.dao.MenuDao;
+import com.edu.assistant.exception.NotFoundException;
 import com.edu.assistant.model.Menu;
 import com.edu.assistant.dto.MenuDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     public Menu get(Long id) {
-        return menuDao.findById(id).orElseThrow();
+        return menuDao.findById(id).orElseThrow(() -> new NotFoundException("Not Found"));
     }
 
 }
