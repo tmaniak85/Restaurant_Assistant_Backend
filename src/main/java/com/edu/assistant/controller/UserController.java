@@ -1,15 +1,17 @@
 package com.edu.assistant.controller;
 
+import com.edu.assistant.exception.*;
 import com.edu.assistant.model.User;
-import com.edu.assistant.service.UserServiceImpl;
+import com.edu.assistant.service.UserService;
+import com.edu.assistant.dto.UserCredentialsDto;
+import com.edu.assistant.dto.UserCredentialsPasswordDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -17,42 +19,45 @@ import java.util.Map;
 @CrossOrigin("http://localhost:4200")
 public class UserController {
 
-    @Autowired
-    private UserServiceImpl userService;
 
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @Autowired
+    private UserService userService;
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/register")
-    public UserDetails register(@RequestBody User user) {
+    public UserDetails register(@Valid @RequestBody UserCredentialsDto user) throws UsernameExistException {
         return userService.register(user);
     }
 
-    @PatchMapping("/register/{id}")
-    public void update(@RequestBody Map<String, Object> updates, @PathVariable(value = "id") long id) {
-        User user = (User) userService.findById(id);
-        partialUpdate(user, updates);
-    }
-    private void partialUpdate(User user, Map<String, Object> updates) {
-        if (updates.containsKey("password")) {
-            user.setPassword((String) updates.get("password"));
-        }
-        userService.partialUpdated(user);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/changePassword/{id}")
+    public void changeUserPassword(@Valid @RequestBody UserCredentialsPasswordDto userCredentialsPasswordDto,
+                                   @PathVariable(value = "id") long id) {
+        userService.changePassword(userCredentialsPasswordDto, id);
     }
 
-    @GetMapping("/details")
-    public List<User> details() {
-        return userService.list();
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/details/active")
+    public List<User> showActiveUsers() {
+        return userService.showActiveUsers();
     }
 
-    @GetMapping("/details/available")
-    public List<User> showAvailableUsers() {
-        return userService.showAvailableUsers();
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/details/waiters/active")
+    public List<User> showActiveWaiters() {
+        return userService.showActiveWaiters();
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/details/waiters/available")
+    public List<User> showAvailableWaiters() {
+        return userService.showAvailableWaiters();
+    }
 
     @PatchMapping("/login")
-    public String login(@RequestBody User user) {
-        String newToken = "{\"token\":\"" + userService.login(user.getUsername(), user.getPassword()).getToken() + "\"}";
-        return newToken;
+    public String login(@RequestBody User user) throws BadCredentialsException {
+        return "{\"token\":\"" + userService.login(user.getUsername(), user.getPassword()).getToken() + "\"}";
     }
 
     @PostMapping("/logout")
@@ -62,18 +67,23 @@ public class UserController {
         return true;
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteUser(@PathVariable(value = "id") long id) {
-        userService.delete(id);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/setAsNonActive/{id}")
+    public void setAsNonActive(@PathVariable(value = "id") long id, @RequestHeader("Authorization") String authorization)
+            throws TableInUserExistException, ForbiddenDeleteException {
+        userService.setAsNonActive(id, authorization);
     }
 
-    @GetMapping("/loadByUserName")
-    public User loadByUserName(String username) {
-        return userService.loadUserByUsername(username);
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/deleteAdmin/{id}")
+    public void delete(@PathVariable(value = "id") long id, @RequestHeader("Authorization") String authorization)
+            throws ForbiddenDeleteException {
+        userService.deleteAdminUser(id, authorization);
     }
 
     @GetMapping("/detailsByToken")
-    public UserDetails findByToken(@RequestHeader("Authorization") String authorization) {
-        return userService.findByToken(authorization);
+    public UserDetails findUserByToken(@RequestHeader("Authorization") String authorization) {
+        return userService.findUserByToken(authorization);
     }
+
 }

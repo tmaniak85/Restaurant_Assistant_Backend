@@ -1,16 +1,18 @@
 package com.edu.assistant.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 
 @Entity
 @Table(name = "order_table")
 @Data
 public class Order {
+
 
     @Id
     @GeneratedValue
@@ -25,6 +27,11 @@ public class Order {
     @JoinColumn(name = "menu_id")
     private Menu menu;
     @CreationTimestamp
-    private LocalDateTime creationDateTime;
+    @JsonFormat(pattern = "yyyy-MMMM-dd")
+    private LocalDate creationDate;
+    @CreationTimestamp
+    @JsonFormat(pattern = "HH:mm:ss")
+    private LocalTime creationTime;
     private OrderStatus status;
+
 }

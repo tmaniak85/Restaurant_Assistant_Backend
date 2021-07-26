@@ -4,6 +4,7 @@ management:
       exposure:
         include: "*"
 
+
 spring:
   datasource:
 
@@ -11,7 +12,6 @@ spring:
     username: ${db.username}
     password: ${db.pass}
     url: jdbc:sqlserver://${db.host}:${db.port};databaseName=${db.name}
-
 
   #postgresql
 #    username: ${db.username}
@@ -24,12 +24,12 @@ spring:
     show-sql: true
 
 
-
 logging:
   level:
     org:
       springframework:
         security: DEBUG
+
 
 server:
   port: 8080

@@ -1,61 +1,71 @@
 package com.edu.assistant.controller;
 
-import com.edu.assistant.model.Menu;
+import com.edu.assistant.exception.BadCredentialsException;
+import com.edu.assistant.exception.OrderInTableExistException;
+import com.edu.assistant.exception.UserInTableExistException;
+import com.edu.assistant.exception.UsernameExistException;
 import com.edu.assistant.model.Tables;
-import com.edu.assistant.model.User;
-import com.edu.assistant.service.TablesServiceImpl;
+import com.edu.assistant.service.TablesService;
+import com.edu.assistant.dto.TablesDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
 @RequestMapping("/tables")
-@CrossOrigin
+@CrossOrigin("http://localhost:4200")
 public class TablesController {
 
-    @Autowired
-    TablesServiceImpl tablesService;
 
+    @Autowired
+    TablesService tablesService;
+
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public List<Menu> showTables() {
-        return this.tablesService.list();
+    public List<Tables> showTables() {
+        return this.tablesService.showTables();
     }
 
+    @PreAuthorize("hasAuthority('WAITER')")
     @GetMapping("/{username}")
     public List<Tables> showOccupiedTablesForUser(@PathVariable(value = "username") String username) {
-        return this.tablesService.findOccupiedTablesByUserUsername(username);
+        return this.tablesService.showOccupiedTablesForUser(username);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public Tables introduceTable(@RequestBody Tables table) {
-        return tablesService.create(table);
+    public Tables createTable(@Valid @RequestBody TablesDto tablesDto) throws UsernameExistException {
+        return tablesService.createTable(tablesDto);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteTable(@PathVariable(value = "id") long id) {
-        tablesService.delete(id);
+    public void deleteTable(@PathVariable(value = "id") long id) throws UserInTableExistException {
+        tablesService.deleteTable(id);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{id}")
-    public void AddTableToUser(@PathVariable(value = "id") long id, @RequestBody Map<String, Object> updates) {
-        Tables table = (Tables) tablesService.findById(id);
-            User user = new User();
-            table.setUser(user);
-        table.getUser().setId(((Number) updates.get("id")).longValue());
-        tablesService.addTableToUser(table);
+    public void addTableToUser(@PathVariable(value = "id") Long id, @RequestBody Map<String, Object> updates)
+            throws BadCredentialsException {
+        tablesService.addTableToUser(id, updates);
     }
 
+    @PreAuthorize("hasAuthority('WAITER')")
     @PatchMapping("/tableOrderStatus/{id}")
     public void takeTableByWaiter(@PathVariable(value = "id") long id) {
-        Tables table = (Tables) tablesService.findById(id);
-        tablesService.takeTableByWaiter(table);
+        tablesService.takeTableByWaiter(id);
     }
 
+
+    @PreAuthorize("hasAuthority('WAITER')")
     @PatchMapping("/tableFreeStatus/{id}")
-    public void setTableAsFree(@PathVariable(value = "id") long id) {
-        Tables table = (Tables) tablesService.findById(id);
-        tablesService.setTableAsFree(table);
+    public void setTableAsFree(@PathVariable(value = "id") long id) throws OrderInTableExistException {
+        tablesService.setTableAsFree(id);
     }
 }

@@ -1,10 +1,10 @@
 package com.edu.assistant.configuration;
 
 import com.edu.assistant.security.CustomAuthenticationFilter;
+import com.edu.assistant.security.CustomAuthenticationProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,31 +17,44 @@ import org.springframework.security.web.authentication.AnonymousAuthenticationFi
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 
 @Configuration
+@EnableWebMvc
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        prePostEnabled = true,
-        securedEnabled = true
-)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class WebConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
+
+
     private static final RequestMatcher PROTECTED_URLS = new OrRequestMatcher(
-            new AntPathRequestMatcher("api/"),
             new AntPathRequestMatcher("/menu/**"),
             new AntPathRequestMatcher("/order/**"),
             new AntPathRequestMatcher("/tables/**"),
-            new AntPathRequestMatcher("/user/details")//gdzie będziemy sprawdzać
+            new AntPathRequestMatcher("/user/details/**"),
+            new AntPathRequestMatcher("/user/register/**"),
+            new AntPathRequestMatcher("/user/changePassword/**"),
+            new AntPathRequestMatcher("/user/logout/**"),
+            new AntPathRequestMatcher("/user/deleteAdmin/**"),
+            new AntPathRequestMatcher("/user/setAsNonActive/**"),
+            new AntPathRequestMatcher("/user/detailsByToken/**")
     );
+
+    @Autowired
+    private CustomAuthenticationProvider authenticationProvider;
 
 
     @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:4200");
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -53,18 +66,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .disable();
         http.logout()
                 .disable();
-
         http
-            .cors(Customizer.withDefaults())
-            .csrf().disable()
-            .authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-            .antMatchers("/user/login").permitAll()
-            .requestMatchers(PROTECTED_URLS).authenticated();
-    //
-
-
+                .cors()
+                .and()
+                .csrf().disable()
+                .authorizeRequests()
+                .requestMatchers(PROTECTED_URLS).authenticated();
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider);
+    }
 
     @Bean
     public CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
@@ -73,19 +86,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return filter;
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PATCH", "OPTIONS", "PUT", "DELETE"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 }

@@ -1,10 +1,10 @@
 package com.edu.assistant.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,30 +16,29 @@ import java.util.List;
 @Data
 public class User implements UserDetails {
 
+
     @Id
     @GeneratedValue
     private long id;
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(nullable = false)
     private String password;
     @Column(nullable = false)
     private UserAuthority userAuthority;
-    @Column(nullable = false)
     private String firstName;
-    @Column(nullable = false)
     private String lastName;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String token;
     private boolean available;
+    @Column(nullable = false)
+    private boolean isActive;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Tables> table;
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Order> order;
-
 
     @JsonIgnore
     @Override
