@@ -8,15 +8,15 @@ management:
 spring:
   datasource:
 
-    #mssql
-    username: ${db.username}
-    password: ${db.pass}
-    url: jdbc:sqlserver://${db.host}:${db.port};databaseName=${db.name}
-
-  #postgresql
+#    #mssql
 #    username: ${db.username}
 #    password: ${db.pass}
-#    url: jdbc:postgresql://${db.host}:${db.port};databaseName=${db.name}
+#    url: jdbc:sqlserver://${db.host}:${db.port};databaseName=${db.name}
+
+#  postgresql
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+    url: ${JDBC_DATABASE_URL}
 
   jpa:
     hibernate:
