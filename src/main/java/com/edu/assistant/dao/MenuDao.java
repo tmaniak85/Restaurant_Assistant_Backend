@@ -11,5 +11,6 @@ public interface MenuDao extends JpaRepository<Menu, Long> {
 
 
     List<Menu> findAllByIsActiveIs(boolean isActive);
+    Menu getById(Long id);
 
 }

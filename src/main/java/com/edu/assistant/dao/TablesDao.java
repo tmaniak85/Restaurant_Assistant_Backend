@@ -12,5 +12,5 @@ public interface TablesDao extends JpaRepository<Tables, Long> {
 
     List<Tables>findAllByUserUsername(String username);
     boolean existsTablesByNumberOfTable(Long id);
-
+    Tables getById(Long id);
 }

@@ -17,7 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/tables")
-@CrossOrigin("http://localhost:4200")
+@CrossOrigin
 public class TablesController {
 
 

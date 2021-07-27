@@ -17,5 +17,5 @@ public interface UserDao extends JpaRepository<User, Long> {
     User findByToken(String token);
     List<User> findAllByAvailableIsAndUserAuthorityEquals(boolean available, UserAuthority userAuthority);
     boolean existsUserByUsername(String username);
-
+    User getById(Long id);
 }
