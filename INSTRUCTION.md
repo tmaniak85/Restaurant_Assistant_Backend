@@ -103,6 +103,25 @@ Zawiera pola do wprowadzenia nazwy, ceny, pole wyboru statusu oraz przycisk WPRO
 Zawiera listę aktualnie przyjętych zamówień, które czekają na realizację w kuchni przedstawiającą nazwę dania, cenę, kelnera, który przyjął zamówienie oraz godzinę przyjęcia. Przycisk GOTOWE potwierdza, że danie jest gotowe do odbioru. Po kliknięciu pozycja znika z listy.
 
 
+## Sekcja WAITER
+
+* Widok dolnego menu
+
+![EnterView](src/main/resources/static/FooterWaiter.png)
+
+Zawiera przecisk ODBIERZ do zmiany widoku ekranu głównego oraz przycisk WYLOGUJ.
+
+* Widok główny
+
+![EnterView](src/main/resources/static/TakeOrdersWaiter.png)
+
+Domyślnie po lewej zawiera listę aktualnie obsługiwanych stolików. Blok stolika zawiera informację o ilości miejsc oraz numer stolika. Stolik który został obsłużony ma kolor niebieski, stolik którego zawartość jest aktualnie wyświetlana ma kolor czarny, nowy stolik który nie został jeszcze obsłużony ma kolor czerwony. Po kliknięciu na dany stolik uznaje się go za obsłużony i następuje zmiana koloru. Stolik z kolorem czarnym ma dodatkowo ikonę obok informacji na temat ilości miejsc. Po kliknięciu na nią następuje zwolnienie stolika. Nie jest możliwe zwolnienie stolika, który zawiera aktywne zamówienia. 
+Po kliknięciu na dany stolik po lewej zostaje wyświetlone dostępne menu wprowadzone przez szefa kuchni. Przycisk DODAJ przy danej pozycji jest aktywny bądź nie w zależności od statusu danej potrawy. Po kliknięciu na niego dla danego stolika zostaje wygenerowane zamówienie, które zostaje wyświetlone na liście powyżej. Zamówienie to zostaje przekazane do kuchni, a tutaj może posiadać statusy KITCHEN (w przygotowaniu w kuchni), READY (gotowe do odbioru), RELEASED (wydane klientowi).
+Ilość przyjętych zamówień dla danego stolika jest dowolna. W momencie, gdy danie zostało wydane klientowi po dopełnieniu formalności należy kliknąć w przycisk ZMIEŃ STATUS przy danej pozycji. Wtedy zamówienie znika z listy i zostaje zarchiwizowane na potrzeby statystyk. Możliwe jest wtedy zwolnienie stolika.
+
+* Widok zamówień
+
+
 
 
 
