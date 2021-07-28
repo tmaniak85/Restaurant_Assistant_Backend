@@ -82,6 +82,29 @@ W sekcji Dania wyświetlona jest lista dań z menu. Po podaniu w polach DATA od 
 Nie są brane pod uwagę dania usunięte z menu oraz kelnerzy którzy nie figurują już na liście.
 
 
+## Sekcja CHEF
+
+* Widok dolnego menu
+
+![EnterView](src/main/resources/static/FooterChef.png)
+
+Zawiera dwa przyciski (WPROWADŹ MENU, oraz ZAMÓWIENIA) do zmiany widoków ekranu głównego oraz przycisk WYLOGUJ.
+
+* Widok menu (WPROWADŹ MENU)
+
+![EnterView](src/main/resources/static/MenuChef.png)
+
+Zawiera pola do wprowadzenia nazwy, ceny, pole wyboru statusu oraz przycisk WPROWADŹ. Pola Nazwa i Cena są wymagane. Status domyślnie ustawiony jest na DOSTĘPNY. Wprowadzona pozycja zostaje wyświetlona na liście powyżej. Pozycję można chwilowo dezaktywować - przycisk DOSTĘPNY. Wtedy jest ona widoczna w menu, ale nie ma możliwości jej wyboru. W dolnej chwili pozycję można na powrót aktywować - przycisk BRAK. Możliwe jest całkowite usunięcie pozycji z Menu - przycisk USUŃ.
+
+* Widok zamówienia (ZAMÓWIENIA)
+
+![EnterView](src/main/resources/static/OrdersChef.png)
+
+Zawiera listę aktualnie przyjętych zamówień, które czekają na realizację w kuchni przedstawiającą nazwę dania, cenę, kelnera, który przyjął zamówienie oraz godzinę przyjęcia. Przycisk GOTOWE potwierdza, że danie jest gotowe do odbioru. Po kliknięciu pozycja znika z listy.
+
+
+
+
 
 
 
