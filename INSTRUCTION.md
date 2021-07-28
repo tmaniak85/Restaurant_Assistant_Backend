@@ -109,7 +109,7 @@ Zawiera listę aktualnie przyjętych zamówień, które czekają na realizację 
 
 ![EnterView](src/main/resources/static/FooterWaiter.png)
 
-Zawiera przecisk ODBIERZ do zmiany widoku ekranu głównego oraz przycisk WYLOGUJ.
+Zawiera przycisk ODBIERZ do zmiany widoku ekranu głównego oraz przycisk WYLOGUJ.
 
 * Widok główny
 
@@ -119,10 +119,12 @@ Domyślnie po lewej zawiera listę aktualnie obsługiwanych stolików. Blok stol
 Po kliknięciu na dany stolik po lewej zostaje wyświetlone dostępne menu wprowadzone przez szefa kuchni. Przycisk DODAJ przy danej pozycji jest aktywny bądź nie w zależności od statusu danej potrawy. Po kliknięciu na niego dla danego stolika zostaje wygenerowane zamówienie, które zostaje wyświetlone na liście powyżej. Zamówienie to zostaje przekazane do kuchni, a tutaj może posiadać statusy KITCHEN (w przygotowaniu w kuchni), READY (gotowe do odbioru), RELEASED (wydane klientowi).
 Ilość przyjętych zamówień dla danego stolika jest dowolna. W momencie, gdy danie zostało wydane klientowi po dopełnieniu formalności należy kliknąć w przycisk ZMIEŃ STATUS przy danej pozycji. Wtedy zamówienie znika z listy i zostaje zarchiwizowane na potrzeby statystyk. Możliwe jest wtedy zwolnienie stolika.
 
-* Widok zamówień
 
+* Widok zamówień (ODBIERZ)
 
+![EnterView](src/main/resources/static/ShowOrdersWaiter.png)
 
+Po lewej tak samo wyświetlana jest lista dostępnych stolików, po rawej lista aktywnych zamówień przyjętych przez danego kelnera dla danych stolików, które obsługuje. Podane są informacje takie jak nazwa dania, cena, status, godzina przyjęcia, oraz numer stolika. Po przyjęciu zamówienia przez kelnera zamówienie pojawia się na tej liście ze statusem KITCHEN. Jeśli danie jest gotowe do odbioru z kuchni status zmienia się na READY. Po wydaniu dania klientowi kelner klika w przycisk ZMIEŃ STATUS. Wtedy zamówienie znika z tej listy, ale nie z indywidualnej listy pojedynczego stolika. 
 
 
 
