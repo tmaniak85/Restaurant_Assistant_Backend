@@ -13,6 +13,7 @@ spring:
 #    password: ${db.pass}
 #    url: jdbc:sqlserver://${db.host}:${db.port};databaseName=${db.name}
 
+
 #  postgresql
     username: ${JDBC_DATABASE_USERNAME}
     password: ${JDBC_DATABASE_PASSWORD}
