@@ -26,7 +26,7 @@ public class TablesServiceImpl implements TablesService {
     }
 
     public List<Tables> showOccupiedTablesForUser(String username) {
-        return tablesDao.findAllByUserUsername(username);
+        return tablesDao.findAllByUserUsernameOrderByIdAsc(username);
     }
 
     public Tables createTable(TablesDto tablesDto) throws UsernameExistException {
