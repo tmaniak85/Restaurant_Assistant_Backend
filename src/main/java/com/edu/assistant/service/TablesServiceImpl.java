@@ -7,6 +7,7 @@ import com.edu.assistant.model.Tables;
 import com.edu.assistant.model.User;
 import com.edu.assistant.dto.TablesDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class TablesServiceImpl implements TablesService {
 
 
     public List<Tables> showTables() {
-        return tablesDao.findAll();
+        return tablesDao.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public List<Tables> showOccupiedTablesForUser(String username) {
