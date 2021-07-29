@@ -17,3 +17,20 @@ Aplikacja zrealizuje swój cel poprzez zarządzanie przepływem informacji oraz 
 * informacja o przyjęciu płatności i zwolnieniu stolika
 
 Aplikacja będzie zapewniać dodatkowo możliwość prowadzenia statystyk dotyczących pracy kelnerów oraz popularności serwowanych dań.
+
+### Założenia techniczne
+* prosta aplikacja webowa
+* dynamiczne wpieranie w czasie rzeczywistym procesu przyjmowania zamówień
+* podział uprawnień pomiędzy kierownika sali, kierownika kuchni oraz kelnerów
+* odrębne widoki w zależności od uprawnień danego użytkownika
+* wybory zapisywane w bazie danych na poczet prowadzonych statystyk
+
+### Stos technologiczny
+* Java
+* Gradle
+* Spring Boot (Web, JPA, Security)
+* Sql Server, PostgreSQL
+* Angular
+* UIkit
+* Lombok
+* Heroku
