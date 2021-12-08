@@ -29,7 +29,7 @@ Aplikacja będzie zapewniać dodatkowo możliwość prowadzenia statystyk dotycz
 * Java
 * Gradle
 * Spring Boot (Web, JPA, Security)
-* Sql Server, PostgreSQL, H2
+* Sql Server, H2
 * Angular
 * UIkit
 * Lombok
