@@ -7,17 +7,16 @@ management:
 
 spring:
   datasource:
-
-#    #mssql
+  # mssql
     username: ${db.username}
     password: ${db.pass}
     url: jdbc:sqlserver://${db.host}:${db.port};databaseName=${db.name}
 
-
-#    #postgresql
-#    username: ${JDBC_DATABASE_USERNAME}
-#    password: ${JDBC_DATABASE_PASSWORD}
-#    url: ${JDBC_DATABASE_URL}
+  #Do użycia w Heroku
+  #    #postgresql
+  #    username: ${JDBC_DATABASE_USERNAME}
+  #    password: ${JDBC_DATABASE_PASSWORD}
+  #    url: ${JDBC_DATABASE_URL}
 
   jpa:
     hibernate:
@@ -34,5 +33,3 @@ logging:
 
 server:
   port: 8080
-
-

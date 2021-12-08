@@ -29,8 +29,15 @@ Aplikacja będzie zapewniać dodatkowo możliwość prowadzenia statystyk dotycz
 * Java
 * Gradle
 * Spring Boot (Web, JPA, Security)
-* Sql Server, PostgreSQL
+* Sql Server, PostgreSQL, H2
 * Angular
 * UIkit
 * Lombok
-* Heroku
+* Heroku  
+
+### Uruchomienie
+* Aby uruchomić aplikację w trybie developerskim tj. korzystając w bazy H2 typu in-memory wybierz w  swoim 
+środkowisku IDE w konfiguracji projektu aktywny profil: dev.
+
+* Aby uruchomić aplikację w trybie produkcyjnym tj. korzystającym z bazy MS SQL Server wprowadź w pliku db.properties 
+swoje dane dostępowe, a w swoim środowisku IDE w konfiguracji projektu wpisz aktywny profil: prod. 
